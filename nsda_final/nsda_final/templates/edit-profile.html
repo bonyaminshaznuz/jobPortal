@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% include 'header.html' %}
+
+{% if request.user.user_type == 'recruiter' %}
+<div class="container mt-5">
+    <h2 class="mb-4">Update Profile</h2>
+    <form method="POST" enctype="multipart/form-data"> 
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <label for="company_name" class="col-sm-2 col-form-label">Company Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="company_name" id="company_name" value="{{ user.recruiter_profile.company_name }}">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="company_address" class="col-sm-2 col-form-label">Company Address</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="company_address" id="company_address" value="{{ user.recruiter_profile.company_address }}">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="company_number" class="col-sm-2 col-form-label">Company Number</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="company_number" id="company_number" value="{{ user.recruiter_profile.company_number }}">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="company_bio" class="col-sm-2 col-form-label">Company Bio</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" name="company_bio" id="company_bio">{{ user.recruiter_profile.company_bio }}</textarea>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="profile_image" class="col-sm-2 col-form-label">Profile Image</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" name="profile_image" id="profile_image">
+                {% if user.recruiter_profile.profile_image %}
+                    <img src="{{ user.recruiter_profile.profile_image.url }}" alt="Profile Image" class="img-thumbnail mt-2" style="max-width: 150px;">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </div>
+        </div>
+        
+    </form>
+</div>
+
+{% else %}
+<div class="container mt-5">
+    <h2 class="mb-4">Update Profile</h2>
+    <form method="POST" enctype="multipart/form-data"> 
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <label for="company_name" class="col-sm-2 col-form-label">User Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="fullname" id="fullname" value="{{ user.jobseeker_profile.fullname}}">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="company_address" class="col-sm-2 col-form-label">User Address</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="jobseeker_address" id="jobseeker_address" value="{{ user.jobseeker_profile.jobseeker_address }}">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="company_number" class="col-sm-2 col-form-label">User Number</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="jobseeker_number" id="jobseeker_number" value="{{ user.jobseeker_profile.jobseeker_number }}">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="company_bio" class="col-sm-2 col-form-label">User Bio</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" name="jobseeker_bio" id="jobseeker_bio">{{ user.jobseeker_profile.jobseeker_bio }}</textarea>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="profile_image" class="col-sm-2 col-form-label">Profile Image</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" name="profile_image" id="profile_image">
+                {% if user.jobseeker_profile.profile_image %}
+                    <img src="{{ user.jobseeker_profile.profile_image.url }}" alt="Profile Image" class="img-thumbnail mt-2" style="max-width: 150px;">
+                {% endif %}
+            </div>
+        </div>
+        <!-- New selecet add -->
+        <div class="row mb-3">
+            <label for="jobseeker_skill" class="col-sm-2 col-form-label">Skill</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="jobseeker_skill" id="jobseeker_skill">
+                    {% for choice, display in user.jobseeker_profile.SKILL_CHOICES %}
+                        <option value="{{ choice }}" {% if user.jobseeker_profile.jobseeker_skill == choice %}selected{% endif %}>{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="upload_cv" class="col-sm-2 col-form-label">Upload CV</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" name="upload_cv" id="upload_cv">
+                {% if user.jobseeker_profile.upload_cv %}
+                    <p class="mt-2">Current CV: <a href="{{ user.jobseeker_profile.upload_cv.url }}">Download</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </div>
+        </div>
+        
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}

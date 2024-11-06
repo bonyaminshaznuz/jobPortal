@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Job
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% include 'header.html' %}
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Applied Job</h1>
+
+        {% if jobview %}
+            <div class="list-group">
+                {% for job in jobview %}
+                    <div class="list-group-item mb-4 p-4 shadow-sm rounded">
+                        <div class="row">
+                            <!-- Job Image -->
+                            {% if job.job.Job_Image %}
+                                <div class="col-md-3">
+                                    <img src="{{ job.job.Job_Image.url }}" alt="{{ job.title }}" class="img-fluid rounded">
+                                </div>
+                            {% endif %}
+
+                            <!-- Job Details -->
+                            <div class="{% if job.Job_Image %}col-md-9{% else %}col-md-12{% endif %}">
+                                <h3 class="mt-2">{{ job.job.title }}</h3>
+                                <p><strong>Name:</strong> {{ job.user }}</p>
+                                <p><strong>Skills:</strong> {{ job.Skills }}</p>
+                                <p><strong>Description:</strong> {{ job.Cover|truncatewords:30 }}</p>
+                                <!-- <a href="{% url 'deletejob' job.job.id %}" class="btn btn-secondary btn-sm mt-3">Cancel Application</a> -->
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">No Application Yet</p>
+        {% endif %}
+    </div>
+
+    {% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Job
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% include 'header.html' %}
+<div class="container mt-5">
+    <h1 class="mb-4">Add a New Job</h1>
+    <form method="post" enctype="multipart/form-data" class="border p-4 bg-light shadow-sm rounded">
+        {% csrf_token %}
+
+        <!-- Skills Field -->
+        <div class="form-group">
+            <label for="skills">Skills</label>
+            <select name="skills" class="form-control" id="skills" required>
+                <option value="programming">Programming</option>
+                <option value="networking">Networking</option>
+                <option value="graphics_design">Graphics Design</option>
+                <option value="cyber_security">Cyber Security</option>
+            </select>
+        </div>
+
+        <!-- Category Field -->
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select name="category" class="form-control" id="category" required>
+                <option value="full_time">Full Time</option>
+                <option value="part_time">Part Time</option>
+            </select>
+        </div>
+
+        <!-- Title Field -->
+        <div class="form-group">
+            <label for="title">Job Title</label>
+            <input type="text" name="title" class="form-control" id="title" placeholder="Enter job title" required>
+        </div>
+
+        <!-- Openings Field -->
+        <div class="form-group">
+            <label for="openings">Number of Openings</label>
+            <input type="number" name="openings" class="form-control" id="openings" placeholder="Enter number of openings" required>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group">
+            <label for="description">Job Description</label>
+            <textarea name="description" class="form-control" id="description" placeholder="Enter job description" rows="4" required></textarea>
+        </div>
+
+        <!-- Job Image Field -->
+        <div class="form-group">
+            <label for="Job_Image">Job Image</label>
+            <input type="file" name="Job_Image" class="form-control-file" id="Job_Image">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-block">Post Job</button>
+    </form>
+</div>
+{% endblock %}

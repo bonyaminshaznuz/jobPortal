@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% include 'header.html' %}
+{% if request.user.user_type == 'recruiter' %}
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card p-4" style="width: 100%; max-width: 800px;">
+        <div class="text-center">
+            <!-- Profile Picture -->
+            {% if user.recruiter_profile.profile_image %}
+                <img src="{{ user.recruiter_profile.profile_image.url }}" class="rounded-circle mb-3" alt="Profile Picture" width="150" height="150">
+            {% else %}
+                <img src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" class="rounded-circle mb-3" alt="Default Profile Picture" width="150" height="150">
+            {% endif %}
+            <!-- Company Name -->
+                <h4 class="card-title">{{ user.recruiter_profile.company_name }}</h4>
+                <a href="{% url 'editprofile'%}" class="btn btn-primary">Edit Profile</a> 
+                <b><p class="card-text text-muted">{{ user.recruiter_profile.company_address }}</p></b>
+                <b><p class="card-text text-muted">{{ user.recruiter_profile.company_number }}</p></b>
+                <p class="card-text">{{ user.recruiter_profile.company_bio }}</p>
+                <a href="{% url 'addjob'%}" class="btn btn-danger me-2">Add Job</a>
+                <a href="{% url 'viewjobs'%}" class="btn btn-warning">View Job Post</a>
+        </div>
+    </div>
+</div>
+{% else %}
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card p-4" style="width: 100%; max-width: 800px;">
+        <div class="text-center">
+            {% if user.jobseeker_profile.profile_image %}
+            
+                <img src="{{ user.jobseeker_profile.profile_image.url }}" class="rounded-circle mb-3" alt="Profile Picture" width="150" height="150">
+            {% else %}
+                <img src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" class="rounded-circle mb-3" alt="Default Profile Picture" width="150" height="150">
+            {% endif %}
+                <h4 class="card-title">{{ user.jobseeker_profile.fullname}}</h4>
+                <a href="{% url 'editprofile'%}" class="btn btn-primary">Edit Profile</a> 
+                <b><p class="card-text text-muted">{{ user.jobseeker_profile.jobseeker_address }}</p></b>
+                <b><p class="card-text text-muted">{{ user.jobseeker_profile.jobseeker_number }}</p></b>
+                <p class="card-text">{{ user.jobseeker_profile.jobseeker_bio }}</p>
+                <p class="card-text"><b>Skill:</b> {{ user.jobseeker_profile.get_jobseeker_skill_display }}</p>
+                {% if user.jobseeker_profile.upload_cv %}
+                    <p><a href="{{ user.jobseeker_profile.upload_cv.url }}" class="btn btn-secondary">Download CV</a></p>
+                {% else %}
+                    <p class="text-muted">No CV uploaded</p>
+                {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

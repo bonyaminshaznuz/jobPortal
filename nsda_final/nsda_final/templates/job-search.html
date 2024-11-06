@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Job Search
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% include 'header.html' %}
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Job Search</h1>
+    
+    <form method="GET" class="d-flex justify-content-center align-items-center">
+        <input class="form-control me-2 border border-warning border-2" style="width: 300px;" type="search" name="title" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <h2 class="mt-4 text-center">Search Results</h2>
+        <div class="row">
+            {% for job in results %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="{{ job.Job_Image.url }}" height="200px" class="card-img-top" alt="{{ job.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ job.title }}</h5>
+                            <p class="card-text"><strong>Skills:</strong> {{ job.skills }}</p>
+                            <p class="card-text"><strong>Category:</strong> {{ job.category }}</p>
+                            <p class="card-text"><strong>Openings:</strong> {{ job.openings }}</p>
+                            <p class="card-text">{{ job.description|truncatewords:30 }}</p>
+                            <a href="#" class="btn btn-primary">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-md-12">
+                    <div class="alert alert-warning" role="alert">No jobs found.</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
